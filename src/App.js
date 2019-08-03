@@ -1,16 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react';
 import './App.css';
-import Button from './components/UI/Button/Button';
+import GenreSelector from './containers/GenreSelector/GenreSelector';
+import {Route, Switch} from 'react-router-dom';
+import Question from './components/Question/Question';
 
-function App() {
-  return (
-    <div className="App">
-      <form>
-      <Button btnType="Success">ORDER</Button>
-      </form>
-    </div>
-  );
+class App extends Component {
+
+  state = {
+    questionData: null
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <Switch>
+          <Route path="/" exact render={(props) => {
+            return (
+                <GenreSelector questions={this.setQuestionData} {...props} />
+            );
+          }}/>
+          <Route path="/question" component={Question} />
+        </Switch>
+      </div>
+    );
+  }
+  
 }
 
 export default App;
