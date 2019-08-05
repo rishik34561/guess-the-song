@@ -1,19 +1,38 @@
 import React, {Component} from 'react';
 import Button from '../UI/Button/Button';
-import Input from '../UI/Input/Input';
+import Score from '../Score/Score';
 
 class Question extends Component {
     state = {
         questionData: null,
-        value: null
+        value: null,
+        isCorrect: false,
+        genre: null
     }
 
     componentDidMount() {
-        this.setState({questionData: this.props.location.state.questionData});
+        this.setState({questionData: this.props.location.state.questionData, 
+                        genre: this.props.location.state.genre});
     }
 
-    submitAnswerHandler = () => {
-        
+    submitAnswerHandler = (event) => {
+        event.preventDefault();
+        if (this.state.value !== this.state.questionData.correct_song) {
+            console.log('isCorrect is false');
+            //this.setState({isCorrect: false});
+        }
+        else {
+            console.log('isCorrect is true');
+            //this.setState({isCorrect: true});
+        }
+        console.log('isCorrect');
+        console.log(this.state.isCorrect);
+
+        this.props.history.push({
+            pathname: '/answer', 
+            state: {isCorrect: this.state.isCorrect, 
+                correct_song: this.state.questionData.correct_song,
+                genre: this.state.genre}});
     }
 
     inputChangedHandler = (song) => {
@@ -21,14 +40,19 @@ class Question extends Component {
             ...this.state.value
         };
         updatedQuestionChosen = song;
+        let updatedCorrect = false;
+        if (updatedQuestionChosen === this.state.questionData.correct_song) {
+            updatedCorrect = true;
+        }
         console.log('updatedQuestionChosen');
         console.log(updatedQuestionChosen);
-        this.setState({value: updatedQuestionChosen});
+        this.setState({value: updatedQuestionChosen, isCorrect: updatedCorrect});
     }
 
     render() {    
         let audioSample = null;
         let options = null;
+        let score = null;
         if (this.state.questionData) {
             const songOptions = this.state.questionData.song_answers;
             console.log(songOptions);
@@ -37,7 +61,7 @@ class Question extends Component {
             );
 
             options = (
-                <form onSubmit={this.submitAnswerHandler}>
+                <form onSubmit={(event) => this.submitAnswerHandler(event)}>
                     {songOptions.map(song => (
                         <div>
                             <input
@@ -47,8 +71,14 @@ class Question extends Component {
                             <label>{song}</label>
                         </div>                                     
                     ))}
+                    <br/>
                     <Button btnType="Success">Submit</Button>
                 </form>
+            );
+            score = (
+                <Score 
+                num_correct={sessionStorage.getItem('num_correct')} 
+                num_total={sessionStorage.getItem('num_total')} />
             );
         }
         
@@ -58,6 +88,7 @@ class Question extends Component {
                 <h1>Question page</h1>
                 {audioSample}
                 {options}
+                {score}
             </div>
             
         )

@@ -4,6 +4,7 @@ import Input from '../../components/UI/Input/Input';
 import axios from 'axios';
 import {Route, Switch} from 'react-router-dom';
 import Question from '../../components/Question/Question';
+import Score from '../../components/Score/Score';
 
 class GenreSelector extends Component {
     state = {
@@ -48,7 +49,8 @@ class GenreSelector extends Component {
                 this.setState({questionData: response.data});
                 this.props.history.push({
                     pathname: '/question', 
-                    state: {questionData: this.state.questionData}});
+                    state: {questionData: this.state.questionData, 
+                            genre: this.state.genreForm.genre}});
             } );
     }
 
@@ -79,6 +81,12 @@ class GenreSelector extends Component {
         console.log('formElementsArray');
         console.log(formElementsArray);
         let inputList = null;
+        let score = null;
+        score = (
+            <Score 
+                num_correct={sessionStorage.getItem('num_correct')} 
+                num_total={sessionStorage.getItem('num_total')} />
+        );
 
         if (this.state.genreForm.genre.elementConfig.options) {
             inputList = formElementsArray.map(formElement => (
@@ -95,9 +103,9 @@ class GenreSelector extends Component {
             <div>
                 <form onSubmit={this.submitGenreHandler}>
                     {inputList}
-                    <Button btnType="Success">ORDER</Button>
+                    <Button btnType="Success">SELECT</Button>
                 </form>
-                
+                {score}
             </div>
             
         )
