@@ -5,6 +5,8 @@ import axios from 'axios';
 import {Route, Switch} from 'react-router-dom';
 import Question from '../../components/Question/Question';
 import Score from '../../components/Score/Score';
+import Leaderboard from '../../components/Leaderboard/Leaderboard';
+import classes from './GenreSelector.css';
 
 class GenreSelector extends Component {
     state = {
@@ -18,7 +20,8 @@ class GenreSelector extends Component {
             }
         },
         loaded: false,
-        questionData: null
+        questionData: null,
+        leaderboard: null
     }
 
     componentDidMount() {
@@ -36,6 +39,12 @@ class GenreSelector extends Component {
             this.setState({genreForm: genreForm});
         });
         console.log('Retrieved genres');
+        axios.get('http://localhost:5000/getLeaderboard')
+            .then(response => {
+                let leaderboard = {...this.state.leaderboard};
+                leaderboard = response.data;
+                this.setState({leaderboard: leaderboard});
+            });
     }
 
     submitGenreHandler = (event) => {
@@ -71,6 +80,9 @@ class GenreSelector extends Component {
     }
 
     render() {
+        const leaderboard = this.state.leaderboard;
+        console.log(leaderboard);
+
         const formElementsArray = [];
         for (let key in this.state.genreForm) {
             formElementsArray.push({
@@ -100,12 +112,14 @@ class GenreSelector extends Component {
         }
 
         return (
-            <div>
+            <div className={classes.GenreSelector}>
+                <h4>Select a genre</h4>
                 <form onSubmit={this.submitGenreHandler}>
                     {inputList}
                     <Button btnType="Success">SELECT</Button>
                 </form>
                 {score}
+                <Leaderboard leaderboard={leaderboard} />
             </div>
             
         )
