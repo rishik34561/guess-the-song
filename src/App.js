@@ -26,7 +26,6 @@ class App extends Component {
   render() {
     return (
         <div className={classes.App}>
-          <h2>Guess The Song</h2>
           <Switch>
             <Route path="/" exact render={(props) => {
               return (

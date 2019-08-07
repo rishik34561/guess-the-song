@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter} from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.css';
 
 sessionStorage.setItem('num_correct', 0);
 sessionStorage.setItem('num_total', 0);

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Button from '../UI/Button/Button';
 import Score from '../Score/Score';
+import classes from './Question.css';
 
 class Question extends Component {
     state = {
@@ -61,33 +62,47 @@ class Question extends Component {
             );
 
             options = (
+                <div className="wrapper" style={{position: 'relative', float: 'left', left: '40%'}}>
                 <form onSubmit={(event) => this.submitAnswerHandler(event)}>
                     {songOptions.map(song => (
-                        <div>
+                        <div className="inner_cont_div" style={{margin: '0px auto 0px auto', textAlign: 'left'}}>
                             <input
                             type='radio'
                             name='questions'
                             onChange={(event) => this.inputChangedHandler(song)} />      
                             <label>{song}</label>
+                            <br/>
                         </div>                                     
-                    ))}
+                    ))}   
                     <br/>
-                    <Button btnType="Success">Submit</Button>
+                    <div style={{left: '40%'}}>
+                        <Button btnType="Success">Submit</Button>
+                    </div>
                 </form>
+                </div>
             );
             score = (
-                <Score 
-                num_correct={sessionStorage.getItem('num_correct')} 
-                num_total={sessionStorage.getItem('num_total')} />
+                <div style={{position: 'relative',
+                float: 'left',
+                margin: '170px auto auto auto'}}>
+                    <Score 
+                    num_correct={sessionStorage.getItem('num_correct')} 
+                    num_total={sessionStorage.getItem('num_total')} />
+                </div>
             );
         }
         
 
         return (
-            <div>
-                <h1>Question page</h1>
+            <div className={classes.Question}>
+                <h2>Guess The Song</h2>
+                <br/>
                 {audioSample}
+                <br/>
+                <br/>
                 {options}
+                <br/>
+                <br/>
                 {score}
             </div>
             

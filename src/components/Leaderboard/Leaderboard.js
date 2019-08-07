@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import { deflate } from 'zlib';
+import 'bootstrap/dist/css/bootstrap.css';
+import classes from './Leaderboard.css';
 
 class Leaderboard extends Component {
     sortLeaderboard = (leaderboardList) => {
@@ -24,14 +25,15 @@ class Leaderboard extends Component {
         let sortedLeaderboard = null;
 
         sortedLeaderboard = (
-            <table>
-                <tbody>
-                    <h3>Leaderboard</h3>
+            <table className="table">
+                <thead className="thead-light">
                     <tr>
-                        <th>Player</th>
+                        <th scope="col">Player</th>
                         {'      '}
-                        <th>High Score</th>
+                        <th scope="col">High Score</th>
                     </tr>
+                </thead>
+                <tbody>
                     {sortable.map(score => (
                         <tr key={score[0]}> 
                             <th>{score[0]}</th>
@@ -43,7 +45,7 @@ class Leaderboard extends Component {
         )
 
         return (
-            <div>
+            <div className={classes.Leaderboard}>
                 {sortedLeaderboard}
             </div>
             

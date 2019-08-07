@@ -1,0 +1,24 @@
+.Question {
+    margin-top: 25px;
+    text-align: center;
+}
+
+input {
+    position:relative;
+    
+}
+
+label {
+    position:relative;
+}
+
+.wrapper {
+    position: relative;
+    float: left;
+    left: 35%;
+}
+
+.inner_cont_div {
+    margin: 0px auto 0px auto;
+    text-align: left;
+}

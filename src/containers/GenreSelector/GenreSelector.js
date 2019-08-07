@@ -113,12 +113,19 @@ class GenreSelector extends Component {
 
         return (
             <div className={classes.GenreSelector}>
+                <h2>Guess The Song</h2>
                 <h4>Select a genre</h4>
                 <form onSubmit={this.submitGenreHandler}>
                     {inputList}
+                    <br/>
+                    <br/>
                     <Button btnType="Success">SELECT</Button>
                 </form>
+                <br/>
+                <br/>
                 {score}
+                <br/>
+                <br/>
                 <Leaderboard leaderboard={leaderboard} />
             </div>
             

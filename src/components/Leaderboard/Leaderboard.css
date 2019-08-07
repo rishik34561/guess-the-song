@@ -1,0 +1,11 @@
+.Leaderboard {
+    position: fixed;
+    text-align: center;
+    top: 50%;
+    left: 43%;
+    color: #e6dbdb;
+}
+
+th {
+    color: #e6dbdb;
+}
