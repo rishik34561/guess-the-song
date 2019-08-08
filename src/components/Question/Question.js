@@ -75,7 +75,8 @@ class Question extends Component {
                         </div>                                     
                     ))}   
                     <br/>
-                    <div style={{left: '40%'}}>
+                    <br/>
+                    <div style={{position: 'relative', float: 'left', left: '20%'}}>
                         <Button btnType="Success">Submit</Button>
                     </div>
                 </form>
@@ -83,7 +84,6 @@ class Question extends Component {
             );
             score = (
                 <div style={{position: 'relative',
-                float: 'left',
                 margin: '170px auto auto auto'}}>
                     <Score 
                     num_correct={sessionStorage.getItem('num_correct')} 
@@ -101,6 +101,8 @@ class Question extends Component {
                 <br/>
                 <br/>
                 {options}
+                <br/>
+                <br/>
                 <br/>
                 <br/>
                 {score}

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Score from '../Score/Score';
 import Button from '../UI/Button/Button';
 import axios from 'axios';
+import classes from './EndGame.css';
 
 class EndGame extends Component {
     state = {
@@ -44,18 +45,23 @@ class EndGame extends Component {
 
     render() {
         return (
-            <div>
+            <div className={classes.EndGame}>
                 <form onSubmit={(event) => this.endGameHandler(event)}>
-                    <label>Username</label>
-                    <br/>
-                    <br/>
-                    <textarea onChange={(event) => this.inputChangedHandler(event)} />
+                    <div className="form-group">
+                        <label style={{fontSize: '20px', fontWeight: 'bold', marginBottom: '20px'}}>Username</label>
+                        <br/>
+                        <textarea style={{marginTop: '10px'}} placeholder="Username" onChange={(event) => this.inputChangedHandler(event)} />
+                    </div>
                     <br/>
                     <Button btnType="Success">Submit</Button>
                 </form>
-                <Score 
-                num_correct={sessionStorage.getItem('num_correct')} 
-                num_total={sessionStorage.getItem('num_total')} />
+                <br/>
+                <br/>
+                <div style={{marginTop: '2%'}}>
+                    <Score 
+                    num_correct={sessionStorage.getItem('num_correct')} 
+                    num_total={sessionStorage.getItem('num_total')} />
+                </div>
             </div>
             
         )

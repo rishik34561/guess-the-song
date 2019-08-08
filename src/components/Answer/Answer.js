@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import Button from '../UI/Button/Button';
 import axios from 'axios';
 import Score from '../Score/Score';
+import classes from './Answer.css';
+import DangerButton from '../UI/Button/DangerButton/DangerButton';
 
 class Answer extends Component {
     state = {
@@ -51,7 +53,10 @@ class Answer extends Component {
         if (this.state.correct_song !== '') {
             if (this.state.isCorrect) {
                 isCorrect = (
-                    <h1>Correct</h1>
+                    <div>
+                        <h1>Correct</h1>
+                        <br/>
+                    </div>
                 )
                 let num_correct = sessionStorage.getItem('num_correct');
                 num_correct++;
@@ -59,7 +64,10 @@ class Answer extends Component {
             }
             else {
                 isCorrect = (
-                    <h1>Incorrect</h1>
+                    <div>
+                        <h1>Incorrect</h1>
+                        <br/>
+                    </div>   
                 )
             }
             let num_total = sessionStorage.getItem('num_total');
@@ -74,17 +82,22 @@ class Answer extends Component {
             );
         }
         return (
-            <div>
+            <div className={classes.Answer}>
                 {isCorrect}
-                The answer is {correctSong}
+                <h4>The answer is {correctSong}</h4>
                 <br/>
-                <Button clicked={this.continueHandler} btnType="Success">Continue</Button>
+                <Button className={classes.Button} clicked={this.continueHandler} btnType="Success">Continue</Button>
                 <br/>
-                <Button clicked={this.changeGenreHandler} btnType="Success">Change Genre</Button>
                 <br/>
-                <Button clicked={this.clearScoreHandler} btnType="Success">Clear Score</Button>
+                <Button className={classes.Button} clicked={this.changeGenreHandler} btnType="Success">Change Genre</Button>
                 <br/>
-                <Button clicked={this.endGameHandler} btnType="Success">End Game</Button>
+                <br/>
+                <Button className={classes.Button} clicked={this.clearScoreHandler} btnType="Success">Clear Score</Button>
+                <br/>
+                <br/>
+                <DangerButton className={classes.Button} clicked={this.endGameHandler} btnType="Success">End Game</DangerButton>
+                <br/>
+                <br/>
                 {score}
             </div>
             
