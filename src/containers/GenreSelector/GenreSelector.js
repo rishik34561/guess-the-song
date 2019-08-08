@@ -113,7 +113,7 @@ class GenreSelector extends Component {
 
         return (
             <div className={classes.GenreSelector}>
-                <h2>Guess The Song</h2>
+                <h2 style={{paddingBottom: '5px'}}>Guess The Song</h2>
                 <h4>Select a genre</h4>
                 <form onSubmit={this.submitGenreHandler}>
                     {inputList}
