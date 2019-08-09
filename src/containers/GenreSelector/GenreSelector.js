@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Button from '../../components/UI/Button/Button';
 import Input from '../../components/UI/Input/Input';
-import axios from 'axios';
+import axios from '../../axios-instance';
 import {Route, Switch} from 'react-router-dom';
 import Question from '../../components/Question/Question';
 import Score from '../../components/Score/Score';
@@ -25,7 +25,7 @@ class GenreSelector extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:5000/getGenres')
+        axios.get('/getGenres')
         .then(response => {
             let genreForm = {...this.state.genreForm};
             genreForm.genre.elementConfig.options = response.data;
@@ -39,7 +39,7 @@ class GenreSelector extends Component {
             this.setState({genreForm: genreForm});
         });
         console.log('Retrieved genres');
-        axios.get('http://localhost:5000/getLeaderboard')
+        axios.get('/getLeaderboard')
             .then(response => {
                 let leaderboard = {...this.state.leaderboard};
                 leaderboard = response.data;
@@ -52,7 +52,7 @@ class GenreSelector extends Component {
         const genre = {...this.state.genreForm.genre};
         console.log('genre to submit');
         console.log(genre);
-        axios.post('http://localhost:5000/getGenres', this.state.genreForm.genre )
+        axios.post('/getGenres', this.state.genreForm.genre )
             .then( response => {
                 console.log(response.data);
                 this.setState({questionData: response.data});

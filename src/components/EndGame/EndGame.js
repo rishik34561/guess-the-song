@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Score from '../Score/Score';
 import Button from '../UI/Button/Button';
-import axios from 'axios';
+import axios from '../../axios-instance';
 import classes from './EndGame.css';
 
 class EndGame extends Component {
@@ -21,7 +21,7 @@ class EndGame extends Component {
     endGameHandler = (event) => {
         event.preventDefault();
         let userData = this.state.userData;
-        axios.post('http://localhost:5000/persistScore', userData )
+        axios.post('/persistScore', userData )
             .then( response => {
                 console.log(response.data);
                 let num_correct = sessionStorage.getItem('num_correct');

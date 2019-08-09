@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Button from '../UI/Button/Button';
-import axios from 'axios';
+import axios from '../../axios-instance';
 import Score from '../Score/Score';
 import classes from './Answer.css';
 import DangerButton from '../UI/Button/DangerButton/DangerButton';
@@ -22,7 +22,7 @@ class Answer extends Component {
         const genre = {...this.state.genre};
         console.log('genre to submit');
         console.log(genre);
-        axios.post('http://localhost:5000/getGenres', genre )
+        axios.post('/getGenres', genre )
             .then( response => {
                 console.log(response.data);
                 let questionData = response.data;

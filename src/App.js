@@ -6,7 +6,7 @@ import Question from './components/Question/Question';
 import Answer from './components/Answer/Answer';
 import ClearScore from './components/ClearScore/ClearScore';
 import EndGame from './components/EndGame/EndGame';
-import axios from 'axios';
+import axios from './axios-instance';
 
 class App extends Component {
   state = {
@@ -15,7 +15,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:5000/getLeaderboard')
+    axios.get('/getLeaderboard')
         .then(response => {
             let leaderboard = {...this.state.leaderboard};
             leaderboard = response.data;
