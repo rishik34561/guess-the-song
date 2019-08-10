@@ -20,7 +20,6 @@ class Leaderboard extends Component {
     render() {
         let leaderboardList = this.props.leaderboard;
         let sortable = this.sortLeaderboard(leaderboardList);
-        console.log(sortable);
 
         let sortedLeaderboard = null;
 

@@ -2,10 +2,9 @@ import React, {Component} from 'react';
 import Button from '../../components/UI/Button/Button';
 import Input from '../../components/UI/Input/Input';
 import axios from '../../axios-instance';
-import {Route, Switch} from 'react-router-dom';
-import Question from '../../components/Question/Question';
 import Score from '../../components/Score/Score';
 import Leaderboard from '../../components/Leaderboard/Leaderboard';
+import Spinner from '../../components/UI/Spinner/Spinner';
 import classes from './GenreSelector.css';
 
 class GenreSelector extends Component {
@@ -21,7 +20,8 @@ class GenreSelector extends Component {
         },
         loaded: false,
         questionData: null,
-        leaderboard: null
+        leaderboard: null,
+        submitted: false
     }
 
     componentDidMount() {
@@ -38,7 +38,6 @@ class GenreSelector extends Component {
             genreForm.genre.elementConfig.options = optionsArray;
             this.setState({genreForm: genreForm});
         });
-        console.log('Retrieved genres');
         axios.get('/getLeaderboard')
             .then(response => {
                 let leaderboard = {...this.state.leaderboard};
@@ -49,13 +48,9 @@ class GenreSelector extends Component {
 
     submitGenreHandler = (event) => {
         event.preventDefault();
-        const genre = {...this.state.genreForm.genre};
-        console.log('genre to submit');
-        console.log(genre);
         axios.post('/getGenres', this.state.genreForm.genre )
             .then( response => {
-                console.log(response.data);
-                this.setState({questionData: response.data});
+                this.setState({questionData: response.data, submitted: true});
                 this.props.history.push({
                     pathname: '/question', 
                     state: {questionData: this.state.questionData, 
@@ -64,7 +59,6 @@ class GenreSelector extends Component {
     }
 
     inputChangedHandler = (event, inputIdentifier) => {
-        console.log(event.target.value);
         const updatedGenreForm = {
             ...this.state.genreForm
         };
@@ -73,15 +67,12 @@ class GenreSelector extends Component {
         };
         updatedFormElement.value = event.target.value;
         updatedGenreForm[inputIdentifier] = updatedFormElement;
-        console.log('updatedFormElement');
-        console.log(updatedFormElement);
         
         this.setState({genreForm: updatedGenreForm});
     }
 
     render() {
-        const leaderboard = this.state.leaderboard;
-        console.log(leaderboard);
+        let leaderboard = this.state.leaderboard;
 
         const formElementsArray = [];
         for (let key in this.state.genreForm) {
@@ -90,10 +81,9 @@ class GenreSelector extends Component {
                 config: this.state.genreForm[key]
             });
         }
-        console.log('formElementsArray');
-        console.log(formElementsArray);
         let inputList = null;
         let score = null;
+        let submitButton = null;
         score = (
             <Score 
                 num_correct={sessionStorage.getItem('num_correct')} 
@@ -110,6 +100,23 @@ class GenreSelector extends Component {
                 />
             ));
         }
+        else {
+            inputList = <Spinner />
+        }
+
+        if (this.state.leaderboard) {
+            leaderboard = <Leaderboard leaderboard={leaderboard} />;
+        }
+        else {
+            leaderboard = <Spinner />
+        }
+
+        if (this.state.submitted) {
+            submitButton = <Spinner />;
+        }
+        else {
+            submitButton = <Button btnType="Success">SELECT</Button>;
+        }
 
         return (
             <div className={classes.GenreSelector}>
@@ -119,14 +126,14 @@ class GenreSelector extends Component {
                     {inputList}
                     <br/>
                     <br/>
-                    <Button btnType="Success">SELECT</Button>
+                    {submitButton}
                 </form>
                 <br/>
                 <br/>
                 {score}
                 <br/>
                 <br/>
-                <Leaderboard leaderboard={leaderboard} />
+                {leaderboard}
             </div>
             
         )

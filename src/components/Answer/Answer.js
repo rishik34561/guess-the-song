@@ -4,12 +4,14 @@ import axios from '../../axios-instance';
 import Score from '../Score/Score';
 import classes from './Answer.css';
 import DangerButton from '../UI/Button/DangerButton/DangerButton';
+import Spinner from '../UI/Spinner/Spinner';
 
 class Answer extends Component {
     state = {
         isCorrect: false,
         correct_song: '',
-        genre: null
+        genre: null,
+        continue: false
     }
 
     componentDidMount() {
@@ -24,8 +26,8 @@ class Answer extends Component {
         console.log(genre);
         axios.post('/getGenres', genre )
             .then( response => {
-                console.log(response.data);
                 let questionData = response.data;
+                this.setState({continue: true});
                 this.props.history.push({
                     pathname: '/question', 
                     state: {questionData: questionData, genre: genre}});
@@ -45,11 +47,10 @@ class Answer extends Component {
     }
 
     render() {
-        console.log(this.props.location.state.isCorrect);
-        console.log(this.props.location.state.genre);
         let isCorrect = null;
         let correctSong = null;
         let score = null;
+        let continueButton = null;
         if (this.state.correct_song !== '') {
             if (this.state.isCorrect) {
                 isCorrect = (
@@ -73,7 +74,6 @@ class Answer extends Component {
             let num_total = sessionStorage.getItem('num_total');
             num_total++;
             sessionStorage.setItem('num_total',num_total);
-            console.log('num_total: ' + sessionStorage.getItem('num_total'));
             correctSong = this.state.correct_song;
             score = (
                 <Score 
@@ -81,12 +81,20 @@ class Answer extends Component {
                 num_total={sessionStorage.getItem('num_total')} />
             );
         }
+
+        if (this.state.continue) {
+            continueButton = <Spinner />
+        }
+        else {
+            continueButton = <Button className={classes.Button} clicked={this.continueHandler} btnType="Success">Continue</Button>
+        }
+
         return (
             <div className={classes.Answer}>
                 {isCorrect}
                 <h4>The answer is {correctSong}</h4>
                 <br/>
-                <Button className={classes.Button} clicked={this.continueHandler} btnType="Success">Continue</Button>
+                {continueButton}
                 <br/>
                 <br/>
                 <Button className={classes.Button} clicked={this.changeGenreHandler} btnType="Success">Change Genre</Button>

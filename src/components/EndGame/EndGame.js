@@ -23,7 +23,6 @@ class EndGame extends Component {
         let userData = this.state.userData;
         axios.post('/persistScore', userData )
             .then( response => {
-                console.log(response.data);
                 let num_correct = sessionStorage.getItem('num_correct');
                 num_correct = 0;
                 sessionStorage.setItem('num_correct',num_correct);
@@ -34,7 +33,6 @@ class EndGame extends Component {
                 
                 this.props.history.push('/');
             } );
-        console.log(this.state.userData.value + ' received');
     }
 
     inputChangedHandler = (event) => {

@@ -18,17 +18,6 @@ class Question extends Component {
 
     submitAnswerHandler = (event) => {
         event.preventDefault();
-        if (this.state.value !== this.state.questionData.correct_song) {
-            console.log('isCorrect is false');
-            //this.setState({isCorrect: false});
-        }
-        else {
-            console.log('isCorrect is true');
-            //this.setState({isCorrect: true});
-        }
-        console.log('isCorrect');
-        console.log(this.state.isCorrect);
-
         this.props.history.push({
             pathname: '/answer', 
             state: {isCorrect: this.state.isCorrect, 
@@ -45,8 +34,6 @@ class Question extends Component {
         if (updatedQuestionChosen === this.state.questionData.correct_song) {
             updatedCorrect = true;
         }
-        console.log('updatedQuestionChosen');
-        console.log(updatedQuestionChosen);
         this.setState({value: updatedQuestionChosen, isCorrect: updatedCorrect});
     }
 
@@ -56,7 +43,6 @@ class Question extends Component {
         let score = null;
         if (this.state.questionData) {
             const songOptions = this.state.questionData.song_answers;
-            console.log(songOptions);
             audioSample = (
                 <audio src={this.state.questionData.songurl_correct} controls  />
             );
